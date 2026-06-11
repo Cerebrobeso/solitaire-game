@@ -1,0 +1,50 @@
+<div
+  cdkDropList
+  [id]="column().id.toString()"
+  [cdkDropListConnectedTo]="connectedTo()"
+  [cdkDropListEnterPredicate]="canEnter"
+  [cdkDropListSortingDisabled]="true"
+  [cdkDropListAutoScrollDisabled]="true"
+  (cdkDropListDropped)="onDrop($event)"
+  (cdkDropListEntered)="onEntered()"
+  (cdkDropListExited)="onExited()"
+
+  class="relative w-20 rounded-lg border-2 border-dashed border-white/20
+  transition-shadow"
+  style="min-height: 7rem"
+>
+  @if (column().cards.length === 0) {
+    <div class="flex items-center justify-center h-28 text-white/20 text-2xl">K</div>
+  }
+
+  @for (card of column().cards; track card.id; let i = $index) {
+    <div
+      cdkDrag
+      [cdkDragData]="card"
+      [cdkDragDisabled]="!card.faceUp"
+      [style.margin-top.px]="i === 0 ? 0 : -84"
+      [style.visibility]="isHiddenByDrag(i) ? 'hidden' : 'visible'"
+      (cdkDragStarted)="onDragStarted(card.id)"
+      (cdkDragEnded)="onDragEnded()"
+    >
+      <app-card [card]="card"/>
+      <ng-template cdkDragPreview>
+        <div style="position: relative;">
+          @for (seqCard of column().cards.slice(i); track seqCard.id; let j = $index) {
+            <div [style.margin-top.px]="j === 0 ? 0 : -84">
+              <app-card [card]="seqCard"/>
+            </div>
+          }
+        </div>
+      </ng-template>
+    </div>
+  }
+  @if (isHovered()) {
+    <div
+      class="w-20 h-28 rounded-lg border-2 border-dashed border-yellow-300
+  opacity-60"
+      [style.margin-top.px]="column().cards.length === 0 ? 0 : -84"
+    ></div>
+  }
+
+</div>

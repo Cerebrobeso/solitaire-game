@@ -1,12 +1,21 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { StockPileComponent } from './components/stock-pile/stock-pile';
+import { DeckService } from './services/deck.service';
+import {GameService} from './services/game.service';
+import {TableauColumnComponent} from './components/tableau-column/tableau-column';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [StockPileComponent, TableauColumnComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('solitaire');
+  protected game = inject(GameService);
+
+  protected onNewGame(): void {
+    this.game.dealInitial();
+  }
+
 }
