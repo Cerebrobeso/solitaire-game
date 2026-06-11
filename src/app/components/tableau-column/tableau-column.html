@@ -42,8 +42,8 @@
   @if (isHovered()) {
     <div
       class="w-20 h-28 rounded-lg border-2 border-dashed border-yellow-300
-  opacity-60"
-      [style.margin-top.px]="column().cards.length === 0 ? 0 : -84"
+  opacity-60 absolute top-0 left-0"
+      [style.top.px]="column().cards.length === 0 ? 0 : (column().cards.length * 28)"
     ></div>
   }
 

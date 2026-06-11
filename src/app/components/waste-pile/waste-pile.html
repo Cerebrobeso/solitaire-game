@@ -1,0 +1,19 @@
+<div
+  cdkDropList
+  id="waste"
+  [cdkDropListConnectedTo]="connectedTo()"
+  [cdkDropListSortingDisabled]="true"
+  class="flex flex-col items-center gap-2"
+>
+  @if (deck.topWaste(); as card) {
+    <div
+      cdkDrag
+      [cdkDragData]="card"
+      class="cursor-grab active:cursor-grabbing rounded-lg"
+    >
+      <app-card [card]="card" />
+    </div>
+  } @else {
+    <div class="w-20 h-28 rounded-lg border-2 border-dashed border-white/20"></div>
+  }
+</div>

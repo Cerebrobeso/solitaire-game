@@ -1,4 +1,4 @@
-<div class="min-h-screen min-w-screen overflow-hidden bg-green-800 p-6">
+<div class="min-h-screen min-w-screen overflow-hidden bg-green-800 p-6 select-none">
 
   <header class="flex items-center justify-between mb-8">
     <div class="flex items-start gap-4">
@@ -13,9 +13,33 @@
     </button>
   </header>
 
-  <section class="flex gap-4 mb-8" aria-label="Pila stock">
-    <app-stock-pile />
+  <section class="flex justify-between mb-8" aria-label="Pila stock">
+    <div class="flex gap-4">
+      <app-stock-pile />
+      <app-waste-pile />
+    </div>
+    <div class="flex gap-4">
+      @for (i of foundationIndices; track i) {
+        <app-foundation-pile [index]="i" />
+      }
+    </div>
   </section>
+
+  @if (game.hasWon()) {
+    <div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-10 text-center shadow-2xl">
+        <p class="text-5xl mb-4">🎉</p>
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Hai vinto!</h2>
+        <p class="text-gray-500 mb-6">Complimenti, hai completato il solitario!</p>
+        <button
+          (click)="onNewGame()"
+          class="px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-lg transition-colors cursor-pointer"
+        >
+          Nuova Partita
+        </button>
+      </div>
+    </div>
+  }
 
   <section class="flex gap-4" aria-label="Tableau">
     @for (col of game.tableau(); track col.id) {

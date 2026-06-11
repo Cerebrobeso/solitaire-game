@@ -31,8 +31,11 @@ export class TableauColumnComponent {
   protected onDrop(event: CdkDragDrop<number>): void {
     this.isHovered.set(false);
     if (event.previousContainer === event.container) return;
-    const sourceId = event.previousContainer.id === 'stock' ? -1 :
-                     Number(event.previousContainer.id);
+    const prevId = event.previousContainer.id;
+    const sourceId = prevId === 'stock' ? -1
+      : prevId === 'waste' ? -2
+      : prevId.startsWith('foundation-') ? -3
+      : Number(prevId);
     const droppedCard = event.item.data;
     this.gameService.moveCard(
       {
